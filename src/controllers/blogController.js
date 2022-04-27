@@ -38,7 +38,6 @@ const getBlog = async function (req, res) {  //created by D
 
     res.status(200).send({ status: true, data: getData })
 
-
 }
 
 //3rd update data api
@@ -58,7 +57,7 @@ const updateBlog = async function (req, res) {
             }
         }
         else {
-            res.status(401).send({ status: false, msg: "Please enter valid Blog id" })
+            res.status(400).send({ status: false, msg: "Please enter valid Blog id" })
         }
     } catch (error) {
         console.log(error.message)
