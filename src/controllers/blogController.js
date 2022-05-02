@@ -8,9 +8,10 @@ const isValidObjectId = (objectId) => mongoose.Types.ObjectId.isValid(objectId);
 const createBlog = async function (req, res) {
   try {
     let data = req.body;
+    let decodedtoken=req.decodedtoken;
     if (!isValidObjectId(data.authorId)) {
       return res.send("NOT A VALID AUTHOR ID");
-    }
+    } if(decodedtoken.authorId!=req.body.authorId) return res.status(404).send({status:false,msg: "are not authorized"}) 
     let condition = await authorModel.findById(data.authorId);
     if (condition) {
       if (data.isPublished == true) {
@@ -40,7 +41,7 @@ const getBlog = async function (req, res) {
     if (getData.length === 0) {
       return res.status(400).send({
         status: false,
-        error: "Page not found",
+      
         msg: "EITHER DELETED OR NOT PUBLISHED",
       });
     }
@@ -58,7 +59,7 @@ const updateBlog = async function (req, res) {
 
     let getId = req.params.blogId;
     let data = req.body;
-    console.log(data)
+    // console.log(data)
     let checkId = await BlogModel.findById(getId);
     if (checkId) {
       if (checkId.isDeleted === false) {
@@ -79,7 +80,7 @@ const updateBlog = async function (req, res) {
         //console.log(check);
         let a = check.tags.flat(); 
         let b = check.subcategory.flat();
-        console.log(a);
+        // console.log(a);
         let check2 = await BlogModel.findByIdAndUpdate(
           getId,
           {
@@ -110,9 +111,9 @@ const updateBlog = async function (req, res) {
 const deleteBlog = async function (req, res) {
   try {
     let blogId = req.params.blogId;
-    if (!blogId) {
-      return res.status(404).send("KINDLY ADD BLOG ID");
-    }
+    // if (!blogId) {
+    //   return res.status(404).send("KINDLY ADD BLOG ID");
+    // }
     let blog = await BlogModel.findById(blogId);
 
     if (!blog) {
@@ -122,7 +123,7 @@ const deleteBlog = async function (req, res) {
       let save = await BlogModel.findOneAndUpdate(
         { _id: blogId },
         {
-          $set: { isDeleted: true, deletedAt: Date.now(), isPublished: false },
+          $set: { isDeleted: true, deletedAt: Date.now() },
         },
         { new: true }
       );
@@ -178,8 +179,4 @@ const deletebyquery = async function (req, res) {
 };
 module.exports = { createBlog, getBlog, updateBlog, deleteBlog, deletebyquery };
 
-/*line 51 : findone = findById
-    line no 18 : else if ki jagaha else
-    line no 55: new added ==> isPublished:true,publishedAt:Date.now()
-    line 127 : findone ==>findMany
-*/
+

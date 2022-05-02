@@ -1,4 +1,4 @@
-const req = require("express/lib/request");
+// const req = require("express/lib/request");
 const authormodel = require("../models/authormodel");
 const Blogmodel = require("../models/Blogmodel");
 const mongoose = require("mongoose");
@@ -12,7 +12,7 @@ const auth1 = async function (req, res, next) {
   if (!token) {
     return res.status(400).send({ status: false, msg: "KINDLY ADD TOKEN" });
   }
-  let decodedtoken = jwt.verify(token, "ProjectBlog");
+  let decodedtoken = jwt.verify(token,"ProjectBlog");
 
   //res.locals.decodedtoken = JSON.stringify(decodedtoken);
   req.decodedtoken = decodedtoken;

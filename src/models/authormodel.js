@@ -6,26 +6,25 @@ const validator = require('validator')
 
 //Schema
 const AuthorSchema = new mongoose.Schema({
-	firstName: { type: String, required: true,trim :true },
-	lastName: { type: String, required: true,trim :true },
+	firstName: { type: String,trim :true },
+	lastName: { type: String,trim :true },
 	title: {
-		type: String, required: true,
+		type: String,
 		enum: ["Mr", "Mrs", "Miss"]
 	},
 	email: {
 		type: String,
-		unique: true,
-		required : true},
+		unique: true},
 	// 	validate(value){
 	// 		if (!validator.isEmail(value)){
 	// 			throw new Error("invalid email");
 	// 		}}
 	// ,
-	password: { type: String, required: true }
+	password: { type: String}
 
 })
 
-module.exports = mongoose.model('Author', AuthorSchema)
+module.exports = mongoose.model('Author', AuthorSchema)//authors
 
 
 

@@ -8,12 +8,13 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    authorId: {
+    authorId: {   
       type: ObjectId,
       ref: "Author",
     },
     tags: Array,
-    category: String,
+    category: {type:String,
+    required:true},
     subcategory: Array,
     isPublished: {
       type: Boolean,
